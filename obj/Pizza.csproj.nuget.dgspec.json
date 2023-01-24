@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/PizzeriaApplication/Pizza.csproj": {}
+    "C:\\Users\\User\\Desktop\\Программирование\\PizzeriaApplication\\PizzeriaCustomer\\Pizza.csproj": {}
   },
   "projects": {
-    "/workspaces/PizzeriaApplication/Pizza.csproj": {
+    "C:\\Users\\User\\Desktop\\Программирование\\PizzeriaApplication\\PizzeriaCustomer\\Pizza.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/PizzeriaApplication/Pizza.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\Программирование\\PizzeriaApplication\\PizzeriaCustomer\\Pizza.csproj",
         "projectName": "Pizza",
-        "projectPath": "/workspaces/PizzeriaApplication/Pizza.csproj",
-        "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/PizzeriaApplication/obj/",
+        "projectPath": "C:\\Users\\User\\Desktop\\Программирование\\PizzeriaApplication\\PizzeriaCustomer\\Pizza.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\Программирование\\PizzeriaApplication\\PizzeriaCustomer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/codespace/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.101/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

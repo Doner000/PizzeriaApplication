@@ -6,7 +6,7 @@ using OrderClass;
 using CookerClass;
 using CourierClass;
 using DrinksClass;
-using Npgsql;
+
 class PizzeriaApplication
 {
     
