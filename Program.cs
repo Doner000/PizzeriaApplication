@@ -5,6 +5,8 @@ using CustomerClass;
 using OrderClass;
 using CookerClass;
 using CourierClass;
+using DrinksClass;
+using Npgsql;
 class PizzeriaApplication
 {
     
@@ -15,16 +17,24 @@ class PizzeriaApplication
 
         Cooker cookerDamir = new Cooker("Damir", 120);
         Cooker cookerAdil = new Cooker("Адиль", 160);
+
         Queue <Cooker> cookersQueue = new ();
         cookersQueue.Enqueue(cookerDamir);
         cookersQueue.Enqueue(cookerAdil);
 
         Courier courier = new Courier("Елжас");
 
-        List<Pizza> menu = new List<Pizza>();
-        menu.Add(new Pizza("Моцаррела", "2000 тенге"));
-        menu.Add(new Pizza("Пепперони", "2350 тенге"));
-        menu.Add(new Pizza("Пицца с ананасами", "2650 тенге"));
+        List <Pizza> pizzaMenu = new List<Pizza>();
+        pizzaMenu.Add(new Pizza("Моцаррела", "2000 тенге"));
+        pizzaMenu.Add(new Pizza("Пепперони", "2350 тенге"));
+        pizzaMenu.Add(new Pizza("Пицца с ананасами", "2650 тенге"));
+
+        List <Drinks> drinksMenu = new List<Drinks>();
+        drinksMenu.Add(new Drinks("Coca-Cola (0.5l)", "500 тенге"));
+        drinksMenu.Add(new Drinks("Fanta (0.5l)", "500 тенге"));
+        drinksMenu.Add(new Drinks("Fuse-Tea (0.5l)", "500 тенге"));
+
+        Menu menu = new Menu(pizzaMenu, drinksMenu);
 
         
 
@@ -65,11 +75,11 @@ class PizzeriaApplication
 
     }
 
-    private static void customerTask (List<Pizza> menu, Queue<Order> ordersQueue)
+    private static void customerTask (Menu menu, Queue<Order> ordersQueue)
     {
         while (true)
         {
-            showMenu(menu);
+            menu.show();
             // Выбор пиццы покупателем
             System.Console.Write("\nЖелаете сделать заказ? (Да/Нет) ");
             string answer = Console.ReadLine();
@@ -92,7 +102,7 @@ class PizzeriaApplication
                     Pizza selectedPizza = new Pizza();
                     selectedPizza = customer.pizzaSelection(menu);
                     Order order = new Order();
-                    if (selectedPizza.getPizzaName() != null)
+                    if (selectedPizza.getName() != null)
                     {
                         order.setInformation(selectedPizza,customer);
                         ordersQueue.Enqueue(order);
@@ -187,7 +197,7 @@ class PizzeriaApplication
         Console.WriteLine("\nМеню заведения:\n");
         for(int pizzaNumber = 1; pizzaNumber <= menu.Count(); pizzaNumber++)
         {
-            Console.WriteLine(pizzaNumber + ") " + menu[pizzaNumber - 1].getPizzaNameAndPrice());
+            Console.WriteLine(pizzaNumber + ") " + menu[pizzaNumber - 1].getNameAndPrice());
         }
     }
 

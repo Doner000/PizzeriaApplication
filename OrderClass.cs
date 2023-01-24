@@ -8,17 +8,18 @@ namespace OrderClass
         private Pizza selectedPizza;
         private Customer customer;
 
-        private string dishName;
+        private string pizzaName;
         private string pizzaPrice;
 
         private string currentCustomerName;
         private string currentCustomerAdress;
         private string currentCustomerTelegramID;
+        private List<Order> cart = new List<Order>();
         public Order (Pizza selectedPizza, Customer customer)
         {
             this.selectedPizza = selectedPizza;
             this.customer = customer;
-            this.dishName = selectedPizza.getPizzaName();
+            this.pizzaName = selectedPizza.getName();
             this.currentCustomerName = customer.getCustomerName();
             this.currentCustomerTelegramID = customer.getcustomerTelegramID();
             this.currentCustomerAdress = customer.getCustomerAdress();
@@ -28,14 +29,19 @@ namespace OrderClass
 
         }
 
+        public void addToCart(Order order)
+        {
+            this.cart.Add(order);
+        }
+
         public string getSelectedPizzaName()
         {
-            return dishName;
+            return pizzaName;
         }
 
         public string getSelectedPizzaPrice()
         {
-            return dishName;
+            return pizzaName;
         }
 
         public string getCurrentCustomerName()
@@ -57,11 +63,10 @@ namespace OrderClass
         {
             this.selectedPizza = selectedPizza;
             this.customer = customer;
-            this.dishName = selectedPizza.getPizzaName();
+            this.pizzaName = selectedPizza.getName();
             this.currentCustomerName = customer.getCustomerName();
             this.currentCustomerTelegramID = customer.getcustomerTelegramID();
             this.currentCustomerAdress = customer.getCustomerAdress();
-
         }
 
         

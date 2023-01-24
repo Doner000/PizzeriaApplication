@@ -4,14 +4,14 @@ namespace PizzaClass
 {
     public class Pizza
     {
-        private string pizzaName;
+        private string name;
         public string price;
 
         public List<Pizza> menu = new List<Pizza>();
 
-        public Pizza (string pizzaName, string price)
+        public Pizza (string name, string price)
         {
-            this.pizzaName = pizzaName;
+            this.name = name;
             this.price = price;
             List<Pizza> menu = new List<Pizza>();
 
@@ -21,14 +21,14 @@ namespace PizzaClass
 
         }
 
-        public string getPizzaNameAndPrice()
+        public string getNameAndPrice()
         {
-            return pizzaName + " - " + price;
+            return name + " - " + price;
         }
 
-        public string getPizzaName()
+        public string getName()
         {
-            return pizzaName;
+            return name;
         }
 
         // public void showMenu(List<Dish> menu)

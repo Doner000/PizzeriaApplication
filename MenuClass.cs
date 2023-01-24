@@ -1,41 +1,73 @@
 using PizzaClass;
+using DrinksClass;
 
 namespace MenuClass
 {
         public class Menu
     {
-        public List<Pizza> menu = new List<Pizza>();
+        public List<Pizza> pizzaMenu = new List<Pizza>();
+        public List<Drinks> drinksMenu = new List<Drinks>();
         
-        public void pizzaSelection()
+        public Menu (List<Pizza> pizzaMenu, List<Drinks> drinksMenu)
         {
-            System.Console.WriteLine("\nВыберите пиццу (Введите цифру)");
-            int choosenPizzaNumber = Convert.ToInt32(Console.ReadLine());
-            Pizza selectedPizza = new ();
-            for (int pizzaNumber = 1; pizzaNumber <= menu.Count(); pizzaNumber++)
+            foreach (var pizza in pizzaMenu)
             {
-                if (pizzaNumber == choosenPizzaNumber)
-                {
-                    selectedPizza = menu[pizzaNumber - 1];
-                    Console.WriteLine("Вы выбрали: " + selectedPizza.getPizzaName() + "\nОжидайте свой заказ. Статус заказа будет отправляться вам в телеграм");
-                }
+                this.pizzaMenu.Add(pizza);
             }
-            if (selectedPizza.getPizzaName() == null)
+
+            foreach (var drinks in drinksMenu)
             {
-                return;
+                this.pizzaMenu.Add(drinks);
             }
         }
 
-        public void setDish (Pizza pizza)
+        public Menu (List<Pizza> pizzaMenu)
         {
-            menu.Add(pizza);
+           foreach (var pizza in pizzaMenu)
+            {
+                this.pizzaMenu.Add(pizza);
+            } 
         }
 
-        public void showMenu()
+        public Menu (List<Drinks> drinksMenu)
+        {
+           foreach (var drinks in drinksMenu)
+            {
+                this.drinksMenu.Add(drinks);
+            } 
+        }
+        
+
+        
+
+        public void set (Pizza pizza)
+        {
+            pizzaMenu.Add(pizza);
+        }
+
+        public void set (Drinks drinks)
+        {
+            drinksMenu.Add(drinks);
+        }
+
+        public void set (Pizza pizza, Drinks drinks )
+        {
+            pizzaMenu.Add(pizza);
+            drinksMenu.Add(drinks);
+        }
+
+        public void show()
         {
             Console.WriteLine("Меню заведения:\n");
-            for(int pizzaNumber = 1; pizzaNumber <= menu.Count(); pizzaNumber++)
+            System.Console.WriteLine("Меню пицц:\n");
+            for(int pizzaNumber = 1; pizzaNumber <= pizzaMenu.Count(); pizzaNumber++)
             {
-                Console.WriteLine(pizzaNumber + ") " + menu[pizzaNumber - 1].getPizzaNameAndPrice());
+                Console.WriteLine(pizzaNumber + ") " + pizzaMenu[pizzaNumber - 1].getNameAndPrice());
+            }
+            System.Console.WriteLine("\nМеню напитков");
+            for(int drinkNumber = 1; drinkNumber <= drinksMenu.Count(); drinkNumber++)
+            {
+                Console.WriteLine(drinkNumber + ") " + drinksMenu[drinkNumber - 1].getNameAndPrice());
             }
         }
 

@@ -1,4 +1,5 @@
 using PizzaClass;
+using MenuClass;
 using static PizzeriaApplication;
 
 namespace CustomerClass
@@ -46,22 +47,24 @@ namespace CustomerClass
             System.Console.WriteLine($"Ваше имя {customerName}. Адрес {customerAdress}. Telegram ID {customerTelegramID}");
         }
 
-        public Pizza pizzaSelection(List <Pizza> menu)
+        public Pizza pizzaSelection(Menu menu)
         {
-            PizzeriaApplication.showMenu(menu);
+            menu.show();
             System.Console.Write("\nВыберите пиццу (Введите цифру): ");
             
             int choosenPizzaNumber = Convert.ToInt32(Console.ReadLine());
             Pizza selectedPizza = new ();
+
+            // Здесь закончил сегодня. Завтра продолжу переводить поля Menu в private и работу на выбором пиццы (или нескольких пицц) и напитков
             
-            if (choosenPizzaNumber <= menu.Count())
+            if (choosenPizzaNumber <= menu.pizzaMenu.Count())
             {
-                for (int pizzaNumber = 1; pizzaNumber <= menu.Count(); pizzaNumber++)
+                for (int pizzaNumber = 1; pizzaNumber <= menu.pizzaMenu.Count(); pizzaNumber++)
                 {
                     if (pizzaNumber == choosenPizzaNumber)
                     {
-                        selectedPizza = menu[pizzaNumber - 1];
-                        Console.WriteLine("\nВы выбрали: " + selectedPizza.getPizzaName() + "\n\nОжидайте свой заказ. Статус заказа будет отправляться вам в телеграм");
+                        selectedPizza = menu.pizzaMenu[pizzaNumber - 1];
+                        Console.WriteLine("\nВы выбрали: " + selectedPizza.getName() + "\n\nОжидайте свой заказ. Статус заказа будет отправляться вам в телеграм");
                     }
                 }
                 
