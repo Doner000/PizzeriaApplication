@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mFghcX7N5yuMCayu4g4q2DLiT9WxLnnXICkQ6tvsuVv1a7jPbACWBd8pVjKtu/I7v/lBshcV0dEiIg0QSKUf2g==",
+  "dgSpecHash": "+4lCJxDDDE/SaC/55IDRTxAXKxTKGRiI1gX6H8V4K0Or5zj7Qr4K3uAhrwjI+7Wo5UJYxQRiCLHIVKHgL8aTSg==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\Desktop\\Программирование\\PizzeriaApplication\\PizzeriaCustomer\\Pizza.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\npgsql\\7.0.1\\npgsql.7.0.1.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

@@ -109,11 +109,7 @@ class PizzeriaApplication
                         Thread.Sleep(5000);
                     }
                 }
-                else
-                {
-                    System.Console.WriteLine("\nЗаглядывайте в следующий раз");
-                    Thread.Sleep(5000);
-                }
+                
                 
             }
 
@@ -136,7 +132,7 @@ class PizzeriaApplication
 
             if(ordersQueue.Count() > 0)
             {
-                Thread.Sleep(3000);
+                Thread.Sleep(15000);
                 // Готовка пиццы пекарем
                 Order takenOrder = ordersQueue.Dequeue();
                 Cooker currentCooker = cookersQueue.Dequeue();
