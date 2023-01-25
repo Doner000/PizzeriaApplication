@@ -5,8 +5,8 @@ namespace MenuClass
 {
         public class Menu
     {
-        public List<Pizza> pizzaMenu = new List<Pizza>();
-        public List<Drinks> drinksMenu = new List<Drinks>();
+        private List<Pizza> pizzaMenu = new List<Pizza>();
+        private List<Drinks> drinksMenu = new List<Drinks>();
         
         public Menu (List<Pizza> pizzaMenu, List<Drinks> drinksMenu)
         {
@@ -17,7 +17,7 @@ namespace MenuClass
 
             foreach (var drinks in drinksMenu)
             {
-                this.pizzaMenu.Add(drinks);
+                this.drinksMenu.Add(drinks);
             }
         }
 
@@ -35,6 +35,26 @@ namespace MenuClass
             {
                 this.drinksMenu.Add(drinks);
             } 
+        }
+
+        public List<Pizza> PizzaMenu ()
+        {
+            return pizzaMenu;
+        }
+
+        public List<Drinks> DrinksMenu ()
+        {
+            return drinksMenu;
+        }
+
+        public int pizzaCount()
+        {
+            return pizzaMenu.Count();
+        }
+
+        public int drinksCount()
+        {
+            return drinksMenu.Count();
         }
         
 
@@ -64,6 +84,25 @@ namespace MenuClass
             {
                 Console.WriteLine(pizzaNumber + ") " + pizzaMenu[pizzaNumber - 1].getNameAndPrice());
             }
+
+            System.Console.WriteLine("\nМеню напитков");
+            for(int drinkNumber = 1; drinkNumber <= drinksMenu.Count(); drinkNumber++)
+            {
+                Console.WriteLine(drinkNumber + ") " + drinksMenu[drinkNumber - 1].getNameAndPrice());
+            }
+        }
+
+        public void showPizza()
+        {
+            System.Console.WriteLine("Меню пицц:\n");
+            for(int pizzaNumber = 1; pizzaNumber <= pizzaMenu.Count(); pizzaNumber++)
+            {
+                Console.WriteLine(pizzaNumber + ") " + pizzaMenu[pizzaNumber - 1].getNameAndPrice());
+            }
+        }
+
+        public void showDrinks()
+        {
             System.Console.WriteLine("\nМеню напитков");
             for(int drinkNumber = 1; drinkNumber <= drinksMenu.Count(); drinkNumber++)
             {

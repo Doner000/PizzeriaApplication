@@ -9,5 +9,10 @@ namespace DrinksClass
         {
             
         }
+        public Drinks ()
+        :base()
+        {
+            
+        }
     }
 }

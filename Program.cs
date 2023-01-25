@@ -99,6 +99,11 @@ class PizzeriaApplication
                     System.Console.WriteLine("\nВаши данные:\n");
                     customer.information();
 
+
+                    System.Console.WriteLine("Метод MakingOrder начался");
+                    customer.MakingOrder(menu);
+                    System.Console.WriteLine("Метод MakingOrder Закончился");
+
                     Pizza selectedPizza = new Pizza();
                     selectedPizza = customer.pizzaSelection(menu);
                     Order order = new Order();
