@@ -5,11 +5,11 @@ namespace PizzaClass
     public class Pizza
     {
         private string name;
-        public string price;
+        public int price;
 
         public List<Pizza> menu = new List<Pizza>();
 
-        public Pizza (string name, string price)
+        public Pizza (string name, int price)
         {
             this.name = name;
             this.price = price;
@@ -29,6 +29,11 @@ namespace PizzaClass
         public string getName()
         {
             return name;
+        }
+
+        public int GetPrice ()
+        {
+            return price;
         }
 
         // public void showMenu(List<Dish> menu)

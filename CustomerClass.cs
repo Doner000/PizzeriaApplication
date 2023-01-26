@@ -1,6 +1,7 @@
 using PizzaClass;
 using MenuClass;
 using DrinksClass;
+using OrderClass;
 using static PizzeriaApplication;
 
 namespace CustomerClass
@@ -48,12 +49,14 @@ namespace CustomerClass
             System.Console.WriteLine($"Ваше имя {customerName}. Адрес {customerAdress}. Telegram ID {customerTelegramID}");
         }
 
-        public void MakingOrder (Menu menu)
+        public Order MakingOrder (Menu menu, Customer customer)
         {
             Pizza selectedPizza = new ();
             List<Pizza> pizzaCart = new();
             Drinks selectedDrink = new();
             List<Drinks> drinksCart = new();
+
+            Order order = new Order();
 
             bool wantMorePizzaOrNot = true;
             bool wantMoreDrinkOrNot = true;
@@ -70,7 +73,7 @@ namespace CustomerClass
                 {
                     if(wantMorePizzaOrNot == false)
                     {
-                        System.Console.WriteLine("Желаете добавить заказ? (Да/Нет)");
+                        System.Console.WriteLine("Желаете добавить ещё пиццу? (Да/Нет)");
                         string answer = Console.ReadLine();
                         if (answer.ToLower() == "да")
                         {
@@ -84,13 +87,16 @@ namespace CustomerClass
                     while (wantMorePizzaOrNot)
                     {
                         menu.showPizza();
+                        
                         System.Console.Write("\nВыберите пиццу (Введите цифру): ");
                         int choosenNumber = Convert.ToInt32(Console.ReadLine());
-                        System.Console.WriteLine("В каком количестве? (Введите цифру)");
-                        int choosenCount = Convert.ToInt32(Console.ReadLine());
+                        
 
                         if (choosenNumber <= menu.pizzaCount())
                         {
+                            System.Console.WriteLine("В каком количестве? (Введите цифру)");
+                            int choosenCount = Convert.ToInt32(Console.ReadLine());
+
                             for (int pizzaNumber = 1; pizzaNumber <= menu.pizzaCount(); pizzaNumber++)
                             {
                                 if (pizzaNumber == choosenNumber)
@@ -121,10 +127,17 @@ namespace CustomerClass
                                         else
                                         {
                                             wantMoreORderOrNot = false;
+                                            
                                         }
                                     }
                                 }
+                                
                             }
+                        }
+
+                        else
+                        {
+                            System.Console.WriteLine("Неверно введены данные. Попробуйте заново");
                         }
                     }
                     
@@ -136,7 +149,7 @@ namespace CustomerClass
                     {
                         if(wantMoreDrinkOrNot == false)
                         {
-                            System.Console.WriteLine("Желаете добавить заказ? (Да/Нет)");
+                            System.Console.WriteLine("Желаете добавить ещё напитки? (Да/Нет)");
                             string answer = Console.ReadLine();
                             if (answer.ToLower() == "да")
                             {
@@ -152,11 +165,12 @@ namespace CustomerClass
                             menu.showDrinks();
                             System.Console.Write("\nВыберите напиток (Введите цифру): ");
                             int choosenNumber = Convert.ToInt32(Console.ReadLine());
-                            System.Console.WriteLine("В каком количестве? (Введите цифру)");
-                            int choosenCount = Convert.ToInt32(Console.ReadLine());
+                            
 
                             if (choosenNumber <= menu.drinksCount())
                             {
+                                System.Console.WriteLine("В каком количестве? (Введите цифру)");
+                                int choosenCount = Convert.ToInt32(Console.ReadLine());
                                 for (int drinkNumber = 1; drinkNumber <= menu.drinksCount(); drinkNumber++)
                                 {
                                     if (drinkNumber == choosenNumber)
@@ -187,36 +201,32 @@ namespace CustomerClass
                                             else
                                             {
                                                 wantMoreORderOrNot = false;
+                                                
                                             }
                                         }
                                     }
                                 }
                             }
+
+                            else 
+                            {
+                                System.Console.WriteLine("Неверно введены данные. Попробуйте снова");
+                            }
                         }
                     }
 
-                    else
-                    {
-                        System.Console.WriteLine("Неверно введены данные. Попробуйте заново");
-                    }
                 }
                 
                 
             }
+
+            order.setInformation(pizzaCart,drinksCart,customer);
+            order.show();
+            return order;
+            
 
             //Добавить возможность возвращаться к добавлению заказа после показа выбранных продуктов
-            System.Console.WriteLine("Ваш заказ:");
-            System.Console.WriteLine("Пицца:\n");
-            foreach (var pizza in pizzaCart)
-            {
-                System.Console.WriteLine(pizza);
-            }
-
-            System.Console.WriteLine("\nНапитки:\n");
-            foreach (var drinks in drinksCart)
-            {
-                System.Console.WriteLine(drinks);
-            }
+            
             
 
             
@@ -224,88 +234,88 @@ namespace CustomerClass
             
         }
 
-        public Pizza pizzaSelection(Menu menu)
-        {
+//         public Pizza pizzaSelection(Menu menu)
+//         {
             
-            Pizza selectedPizza = new ();
-            List<Pizza> pizzaCart = new();
-            Drinks selectedDrink = new();
-            List<Drinks> drinksCart = new();
+//             Pizza selectedPizza = new ();
+//             List<Pizza> pizzaCart = new();
+//             Drinks selectedDrink = new();
+//             List<Drinks> drinksCart = new();
 
-            bool wantMoreOrNot = true;
+//             bool wantMoreOrNot = true;
 
-            // Здесь закончил сегодня. Завтра продолжу переводить поля Menu в private и работу на выбором пиццы (или нескольких пицц) и напитков
-            while (wantMoreOrNot)
-            {
-                //Добавить категории в меню и в тут уже спрашивать какую категорию желают выбрать 
-                menu.show();
+//             // Здесь закончил сегодня. Завтра продолжу переводить поля Menu в private и работу на выбором пиццы (или нескольких пицц) и напитков
+//             while (wantMoreOrNot)
+//             {
+//                 //Добавить категории в меню и в тут уже спрашивать какую категорию желают выбрать 
+//                 menu.show();
 
-                System.Console.Write("\nВыберите пиццу (Введите цифру): ");
-                int choosenPizzaNumber = Convert.ToInt32(Console.ReadLine());
+//                 System.Console.Write("\nВыберите пиццу (Введите цифру): ");
+//                 int choosenPizzaNumber = Convert.ToInt32(Console.ReadLine());
 
-                if (choosenPizzaNumber <= menu.pizzaCount())
-                {
-                    for (int pizzaNumber = 1; pizzaNumber <= menu.pizzaCount(); pizzaNumber++)
-                    {
-                        if (pizzaNumber == choosenPizzaNumber)
-                        {
-                            selectedPizza = menu.PizzaMenu()[pizzaNumber - 1];
-                            pizzaCart.Add(selectedPizza);
-                            System.Console.WriteLine($"{selectedPizza.getName()} добавлена в корзину\n");
+//                 if (choosenPizzaNumber <= menu.pizzaCount())
+//                 {
+//                     for (int pizzaNumber = 1; pizzaNumber <= menu.pizzaCount(); pizzaNumber++)
+//                     {
+//                         if (pizzaNumber == choosenPizzaNumber)
+//                         {
+//                             selectedPizza = menu.PizzaMenu()[pizzaNumber - 1];
+//                             pizzaCart.Add(selectedPizza);
+//                             System.Console.WriteLine($"{selectedPizza.getName()} добавлена в корзину\n");
 
-                            System.Console.WriteLine("Хотите заказать ещё пиццы?");
-                            string answerPizza = Console.ReadLine();
-                            if(answerPizza.ToLower() == "да")
-                            {
-                                wantMoreOrNot = true;
-                            }
-                            else
-                            {
-                                bool wantMoreDrinkOrNot = true;
-                                System.Console.WriteLine("Хотите добавить напиток? (Да/Нет)");
-                                string answerDrinks = Console.ReadLine();
-                                if(answerDrinks.ToLower() == "да")
-                                {
-                                    menu.showDrinks();
-                                    System.Console.WriteLine("Выберите напиток (Введите цифру)");
-                                    int choosenDrinkNumber = Convert.ToInt32(Console.ReadLine());
-                                    if (choosenDrinkNumber <= menu.drinksCount())
-                                    {
-                                        for (int drinkNumber = 1; drinkNumber <= menu.drinksCount(); drinkNumber++)
-                                        {
-                                            if (drinkNumber == choosenDrinkNumber)
-                                            {
-                                                selectedDrink = menu.DrinksMenu()[drinkNumber - 1];
-                                                drinksCart.Add(selectedDrink);
-                                                System.Console.WriteLine($"{selectedDrink.getName()}");
+//                             System.Console.WriteLine("Хотите заказать ещё пиццы?");
+//                             string answerPizza = Console.ReadLine();
+//                             if(answerPizza.ToLower() == "да")
+//                             {
+//                                 wantMoreOrNot = true;
+//                             }
+//                             else
+//                             {
+//                                 bool wantMoreDrinkOrNot = true;
+//                                 System.Console.WriteLine("Хотите добавить напиток? (Да/Нет)");
+//                                 string answerDrinks = Console.ReadLine();
+//                                 if(answerDrinks.ToLower() == "да")
+//                                 {
+//                                     menu.showDrinks();
+//                                     System.Console.WriteLine("Выберите напиток (Введите цифру)");
+//                                     int choosenDrinkNumber = Convert.ToInt32(Console.ReadLine());
+//                                     if (choosenDrinkNumber <= menu.drinksCount())
+//                                     {
+//                                         for (int drinkNumber = 1; drinkNumber <= menu.drinksCount(); drinkNumber++)
+//                                         {
+//                                             if (drinkNumber == choosenDrinkNumber)
+//                                             {
+//                                                 selectedDrink = menu.DrinksMenu()[drinkNumber - 1];
+//                                                 drinksCart.Add(selectedDrink);
+//                                                 System.Console.WriteLine($"{selectedDrink.getName()}");
 
-                                                System.Console.WriteLine("Хотите добавить ещё напиток? (Да/Нет)");
-                                                string answerWanrOrNot =  Console.ReadLine();
-                                                if (answerWanrOrNot.ToLower() == "да" )
-                                                {
-                                                    wantMoreDrinkOrNot = true;
-                                                }
-                                                else
-                                                {
-                                                    wantMoreDrinkOrNot = false;
-                                                    wantMoreOrNot = false;
-                                                }
+//                                                 System.Console.WriteLine("Хотите добавить ещё напиток? (Да/Нет)");
+//                                                 string answerWanrOrNot =  Console.ReadLine();
+//                                                 if (answerWanrOrNot.ToLower() == "да" )
+//                                                 {
+//                                                     wantMoreDrinkOrNot = true;
+//                                                 }
+//                                                 else
+//                                                 {
+//                                                     wantMoreDrinkOrNot = false;
+//                                                     wantMoreOrNot = false;
+//                                                 }
                                 
-                                            }
-                                        }
-                                    }
-                                }
+//                                             }
+//                                         }
+//                                     }
+//                                 }
 
-                            }
-                        }
-                    }
+//                             }
+//                         }
+//                     }
                     
-                }
-            }
-            Console.WriteLine("\nВы выбрали: " + selectedPizza.getName() + "\n\nОжидайте свой заказ. Статус заказа будет отправляться вам в телеграм");
+//                 }
+//             }
+//             Console.WriteLine("\nВы выбрали: " + selectedPizza.getName() + "\n\nОжидайте свой заказ. Статус заказа будет отправляться вам в телеграм");
             
-            return selectedPizza;
+//             return selectedPizza;
              
-        }
+//         }
     }
 }

@@ -4,7 +4,7 @@ namespace DrinksClass
 {
     public class Drinks : Pizza
     {
-        public Drinks (string name, string price)
+        public Drinks (string name, int price)
         :base(name, price)
         {
             

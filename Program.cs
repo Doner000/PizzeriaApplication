@@ -25,14 +25,14 @@ class PizzeriaApplication
         Courier courier = new Courier("Елжас");
 
         List <Pizza> pizzaMenu = new List<Pizza>();
-        pizzaMenu.Add(new Pizza("Моцаррела", "2000 тенге"));
-        pizzaMenu.Add(new Pizza("Пепперони", "2350 тенге"));
-        pizzaMenu.Add(new Pizza("Пицца с ананасами", "2650 тенге"));
+        pizzaMenu.Add(new Pizza("Моцаррела", 2000));
+        pizzaMenu.Add(new Pizza("Пепперони", 2350));
+        pizzaMenu.Add(new Pizza("Пицца с ананасами", 2650));
 
         List <Drinks> drinksMenu = new List<Drinks>();
-        drinksMenu.Add(new Drinks("Coca-Cola (0.5l)", "500 тенге"));
-        drinksMenu.Add(new Drinks("Fanta (0.5l)", "500 тенге"));
-        drinksMenu.Add(new Drinks("Fuse-Tea (0.5l)", "500 тенге"));
+        drinksMenu.Add(new Drinks("Coca-Cola (0.5l)", 500));
+        drinksMenu.Add(new Drinks("Fanta (0.5l)", 500));
+        drinksMenu.Add(new Drinks("Fuse-Tea (0.5l)", 500));
 
         Menu menu = new Menu(pizzaMenu, drinksMenu);
 
@@ -81,6 +81,7 @@ class PizzeriaApplication
         {
             menu.show();
             // Выбор пиццы покупателем
+            System.Console.WriteLine("Здравствуйте!\n");
             System.Console.Write("\nЖелаете сделать заказ? (Да/Нет) ");
             string answer = Console.ReadLine();
             Customer customer = new ("","","");
@@ -99,22 +100,28 @@ class PizzeriaApplication
                     System.Console.WriteLine("\nВаши данные:\n");
                     customer.information();
 
-
-                    System.Console.WriteLine("Метод MakingOrder начался");
-                    customer.MakingOrder(menu);
-                    System.Console.WriteLine("Метод MakingOrder Закончился");
-
-                    Pizza selectedPizza = new Pizza();
-                    selectedPizza = customer.pizzaSelection(menu);
                     Order order = new Order();
-                    if (selectedPizza.getName() != null)
-                    {
-                        order.setInformation(selectedPizza,customer);
-                        ordersQueue.Enqueue(order);
-                        Thread.Sleep(5000);
-                    }
+                    
+                    order = customer.MakingOrder(menu,customer);
+                    
+
+                    ordersQueue.Enqueue(order);
+
+                    System.Console.WriteLine("Ожидайте. Ваш заказ добавлен в очерь на готовку");
+                    
+
+                    // Pizza selectedPizza = new Pizza();
+                    // selectedPizza = customer.pizzaSelection(menu);
+                    
+                    // if (selectedPizza.getName() != null)
+                    // {
+                    //     order.setInformation(selectedPizza,customer);
+                    //     ordersQueue.Enqueue(order);
+                    //     Thread.Sleep(5000);
+                    // }
                 }
                 
+                Thread.Sleep(5000);
                 
             }
 
@@ -142,16 +149,16 @@ class PizzeriaApplication
                 Order takenOrder = ordersQueue.Dequeue();
                 Cooker currentCooker = cookersQueue.Dequeue();
 
-                System.Console.WriteLine($"\n\n{takenOrder.getCurrentCustomerName()}, пекарь {currentCooker.getCookerName()} принял ваш заказ.\n\n{takenOrder.getSelectedPizzaName()} в процессе готовки");
+                System.Console.WriteLine($"\n\n{takenOrder.getCurrentCustomerName()}, пекарь {currentCooker.getCookerName()} принял ваш заказ.");
 
                 System.Console.WriteLine($"\nГотовка займет {currentCooker.getCookingSpeed()} секунд");
                 Thread.Sleep(currentCooker.getCookingSpeed()*1000);
-                System.Console.WriteLine($"\n{takenOrder.getSelectedPizzaName()} отправляется на склад");
+                System.Console.WriteLine($"\n{takenOrder.getCurrentCustomerName()} Ваш заказ готов. Отправляем на склад");
                 Thread.Sleep(5000);//Типо 5 сек относит на склад
 
                 //Передача готового заказа на склад
                 warehouseQueue.Enqueue(takenOrder);
-                System.Console.WriteLine("\nЗаказ на складе. Курьер скоро заберет ваш заказ со склада");
+                System.Console.WriteLine($"\nЗаказ на складе. Курьер скоро заберет заказ со склада");
                 cookersQueue.Enqueue(currentCooker);
 
                 Thread.Sleep(5000);
@@ -178,17 +185,11 @@ class PizzeriaApplication
 
             Thread.Sleep(35000);
 
-            System.Console.WriteLine("\nЗАКАЗЫ НА СКЛАДЕ");//потом убрать это
-            foreach (Order queue in warehouseQueue)
-            {
-                Console.WriteLine(queue.getSelectedPizzaName());
-            }
-
             Order orderToDeliver = warehouseQueue.Dequeue();
             Thread.Sleep(10000);
             System.Console.WriteLine($"\nКурьер {courier.getName()} получил ваш заказ\n\nЧерез 30 секуд курьер будет у вас");
             Thread.Sleep(30000);
-            System.Console.WriteLine($"\nЗаказ {orderToDeliver.getSelectedPizzaName()} доставлен.\n\nСпасибо за покупку!!!");
+            System.Console.WriteLine($"\nЗаказ доставлен.\n\nСпасибо за покупку!!!");
         }
         
     }
