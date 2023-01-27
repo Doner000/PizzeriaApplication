@@ -6,12 +6,17 @@ using OrderClass;
 using CookerClass;
 using CourierClass;
 using DrinksClass;
+using DataBaseClass;
+using Npgsql;
 
 class PizzeriaApplication
 {
     
     static void Main()
     {
+        DB dataBase = new DB ();
+        dataBase.DataInput("Insert into pizza (Name, Price) values ('Пепперони с ананасами', 3000)");
+        
         Queue <Order> ordersQueue = new ();
         Queue<Order> warehouseQueue = new Queue<Order>();
 
