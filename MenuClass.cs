@@ -79,17 +79,19 @@ namespace MenuClass
         public void show()
         {
             Console.WriteLine("Меню заведения:\n");
-            System.Console.WriteLine("Меню пицц:\n");
-            for(int pizzaNumber = 1; pizzaNumber <= pizzaMenu.Count(); pizzaNumber++)
-            {
-                Console.WriteLine(pizzaNumber + ") " + pizzaMenu[pizzaNumber - 1].getNameAndPrice());
-            }
+            showPizza();
+            showDrinks();
+            // System.Console.WriteLine("Меню пицц:\n");
+            // for(int pizzaNumber = 1; pizzaNumber <= pizzaMenu.Count(); pizzaNumber++)
+            // {
+            //     Console.WriteLine(pizzaNumber + ") " + pizzaMenu[pizzaNumber - 1].getNameAndPrice());
+            // }
 
-            System.Console.WriteLine("\nМеню напитков");
-            for(int drinkNumber = 1; drinkNumber <= drinksMenu.Count(); drinkNumber++)
-            {
-                Console.WriteLine(drinkNumber + ") " + drinksMenu[drinkNumber - 1].getNameAndPrice());
-            }
+            // System.Console.WriteLine("\nМеню напитков");
+            // for(int drinkNumber = 1; drinkNumber <= drinksMenu.Count(); drinkNumber++)
+            // {
+            //     Console.WriteLine(drinkNumber + ") " + drinksMenu[drinkNumber - 1].getNameAndPrice());
+            // }
         }
 
         public void showPizza()
@@ -97,7 +99,7 @@ namespace MenuClass
             System.Console.WriteLine("Меню пицц:\n");
             for(int pizzaNumber = 1; pizzaNumber <= pizzaMenu.Count(); pizzaNumber++)
             {
-                Console.WriteLine(pizzaNumber + ") " + pizzaMenu[pizzaNumber - 1].getNameAndPrice());
+                System.Console.WriteLine($"{pizzaNumber}) {pizzaMenu[pizzaNumber - 1].getName()} - {pizzaMenu[pizzaNumber - 1].GetPrice()} тенге");
             }
         }
 
@@ -106,7 +108,8 @@ namespace MenuClass
             System.Console.WriteLine("\nМеню напитков");
             for(int drinkNumber = 1; drinkNumber <= drinksMenu.Count(); drinkNumber++)
             {
-                Console.WriteLine(drinkNumber + ") " + drinksMenu[drinkNumber - 1].getNameAndPrice());
+                System.Console.WriteLine($"{drinkNumber}) {drinksMenu[drinkNumber - 1].getName()} - {drinksMenu[drinkNumber - 1].GetPrice()} тенге");
+
             }
         }
 

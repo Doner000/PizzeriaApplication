@@ -14,9 +14,13 @@ class PizzeriaApplication
     
     static void Main()
     {
-        DB dataBase = new DB ();
-        dataBase.DataInput("Insert into pizza (Name, Price) values ('Пепперони с ананасами', 3000)");
+        // DB dataBase = new DB ();
+        // dataBase.DataInput("Insert into pizza (Name, Price) values ('Пепперони с ананасами', 3000)");
+
+        //Нужно получать данные с базы и уже из них создавать объекты
         
+        DB dataBase = new DB();
+
         Queue <Order> ordersQueue = new ();
         Queue<Order> warehouseQueue = new Queue<Order>();
 
@@ -30,14 +34,21 @@ class PizzeriaApplication
         Courier courier = new Courier("Елжас");
 
         List <Pizza> pizzaMenu = new List<Pizza>();
-        pizzaMenu.Add(new Pizza("Моцаррела", 2000));
-        pizzaMenu.Add(new Pizza("Пепперони", 2350));
-        pizzaMenu.Add(new Pizza("Пицца с ананасами", 2650));
+        dataBase.ReadPizzaItems(pizzaMenu);
+
+
+        // pizzaMenu.Add(new Pizza("Моцаррела", 2000));
+        // pizzaMenu.Add(new Pizza("Пепперони", 2350));
+        // pizzaMenu.Add(new Pizza("Пицца с ананасами", 2650));
 
         List <Drinks> drinksMenu = new List<Drinks>();
-        drinksMenu.Add(new Drinks("Coca-Cola (0.5l)", 500));
-        drinksMenu.Add(new Drinks("Fanta (0.5l)", 500));
-        drinksMenu.Add(new Drinks("Fuse-Tea (0.5l)", 500));
+        dataBase.ReadDrinkItems(drinksMenu);
+
+
+
+        // drinksMenu.Add(new Drinks("Coca-Cola (0.5l)", 500));
+        // drinksMenu.Add(new Drinks("Fanta (0.5l)", 500));
+        // drinksMenu.Add(new Drinks("Fuse-Tea (0.5l)", 500));
 
         Menu menu = new Menu(pizzaMenu, drinksMenu);
 
@@ -49,7 +60,7 @@ class PizzeriaApplication
         (
             () =>
             {
-                customerTask(menu,ordersQueue);
+                customerTask(menu,ordersQueue,dataBase);
                 
             }
         );
@@ -80,7 +91,7 @@ class PizzeriaApplication
 
     }
 
-    private static void customerTask (Menu menu, Queue<Order> ordersQueue)
+    private static void customerTask (Menu menu, Queue<Order> ordersQueue,DB dataBase)
     {
         while (true)
         {
@@ -89,7 +100,7 @@ class PizzeriaApplication
             System.Console.WriteLine("Здравствуйте!\n");
             System.Console.Write("\nЖелаете сделать заказ? (Да/Нет) ");
             string answer = Console.ReadLine();
-            Customer customer = new ("","","");
+            Customer customer = new ();
 
             if(answer.ToLower() == "да" || answer.ToLower() == "нет")
             {
@@ -100,8 +111,8 @@ class PizzeriaApplication
                     System.Console.Write("\nВаш адрес: ");
                     string customerAdress = Console.ReadLine();
                     System.Console.Write("\nВведите свой telegram ID. Туда будет приходить актуальная информация по вашему заказу: ");
-                    string telegramID = Console.ReadLine();
-                    customer.setInformation(customerName, customerAdress, telegramID);
+                    string telegramUserName = Console.ReadLine();
+                    customer.setInformation(customerName, customerAdress, telegramUserName, dataBase, customer);
                     System.Console.WriteLine("\nВаши данные:\n");
                     customer.information();
 
@@ -176,7 +187,8 @@ class PizzeriaApplication
         
     }
 
-    public static void courierTask (Queue<Order> warehouseQueue, Courier courier)
+    public static void 
+    courierTask (Queue<Order> warehouseQueue, Courier courier)
     {
 
         while (true)

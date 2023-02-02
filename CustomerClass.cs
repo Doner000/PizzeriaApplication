@@ -2,31 +2,46 @@ using PizzaClass;
 using MenuClass;
 using DrinksClass;
 using OrderClass;
+using DataBaseClass;
 using static PizzeriaApplication;
 
 namespace CustomerClass
 {
     public class Customer
     {
+        private int customerId;
         private string customerName;
         private string customerAdress;
-        private string customerTelegramID;
+        private string telegramUserName;
         private DateTime timeOfTheOrder;
 
-        public Customer (string customerName, string customerAdress, string customerTelegramID)
+        public Customer (string customerName, string customerAdress, string telegramUserName)
         {
             this.customerName = customerName;
             this.customerAdress = customerAdress;
-            this.customerTelegramID = customerTelegramID;
-            this.timeOfTheOrder = timeOfTheOrder;
+            this.telegramUserName = telegramUserName;
+            // this.timeOfTheOrder = timeOfTheOrder;
         }
 
-        public void setInformation (string customerName, string customerAdress, string customerTelegramID)
+        public Customer ()
+        {
+
+        }
+
+        public void setInformation (string customerName, string customerAdress, string telegramUserName, DB dataBase, Customer customer)
         {
             this.customerName = customerName;
             this.customerAdress = customerAdress;
-            this.customerTelegramID = customerTelegramID;
+            this.telegramUserName = telegramUserName;
+            dataBase.InsertCustomerInfo(customerName, customerAdress, telegramUserName);
+            dataBase.CustomerGetId(telegramUserName,customer);
+            System.Console.WriteLine("ID - " + this.customerId);
             
+        }
+
+        public void SetId (int customerId)
+        {
+            this.customerId = customerId;
         }
 
         public string getCustomerName()
@@ -41,12 +56,12 @@ namespace CustomerClass
 
         public string getcustomerTelegramID()
         {
-            return customerTelegramID;
+            return telegramUserName;
         }
 
         public void information ()
         {
-            System.Console.WriteLine($"Ваше имя {customerName}. Адрес {customerAdress}. Telegram ID {customerTelegramID}");
+            System.Console.WriteLine($"Ваше имя {customerName}. Адрес {customerAdress}. Telegram Username {telegramUserName}");
         }
 
         public Order MakingOrder (Menu menu, Customer customer)
@@ -60,9 +75,9 @@ namespace CustomerClass
 
             bool wantMorePizzaOrNot = true;
             bool wantMoreDrinkOrNot = true;
-            bool wantMoreORderOrNot = true;
+            bool wantMoreOrderOrNot = true;
 
-            while (wantMoreORderOrNot)
+            while (wantMoreOrderOrNot)
             {
                 menu.show();
                 System.Console.WriteLine("\nВыберите категорию\n");
@@ -122,11 +137,11 @@ namespace CustomerClass
                                         string wantAddToOrderOrNot = Console.ReadLine();
                                         if (wantAddToOrderOrNot.ToLower() == "да")
                                         {
-                                            wantMoreORderOrNot = true;
+                                            wantMoreOrderOrNot = true;
                                         }
                                         else
                                         {
-                                            wantMoreORderOrNot = false;
+                                            wantMoreOrderOrNot = false;
                                             
                                         }
                                     }
@@ -196,11 +211,11 @@ namespace CustomerClass
                                             string wantAddToOrderOrNot = Console.ReadLine();
                                             if (wantAddToOrderOrNot.ToLower() == "да")
                                             {
-                                                wantMoreORderOrNot = true;
+                                                wantMoreOrderOrNot = true;
                                             }
                                             else
                                             {
-                                                wantMoreORderOrNot = false;
+                                                wantMoreOrderOrNot = false;
                                                 
                                             }
                                         }

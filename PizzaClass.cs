@@ -4,10 +4,31 @@ namespace PizzaClass
 {
     public class Pizza
     {
+        private int id;
         private string name;
         public int price;
+        public string description;
 
         public List<Pizza> menu = new List<Pizza>();
+
+        public Pizza (int id, string name, int price, string description)
+        {
+            this.id = id;
+            this.name = name;
+            this.price = price;
+            this.description = description;
+            List<Pizza> menu = new List<Pizza>();
+
+        }
+
+        public Pizza (int id, string name, int price)
+        {
+            this.id = id;
+            this.name = name;
+            this.price = price;
+            List<Pizza> menu = new List<Pizza>();
+
+        }
 
         public Pizza (string name, int price)
         {
@@ -34,6 +55,16 @@ namespace PizzaClass
         public int GetPrice ()
         {
             return price;
+        }
+
+        public string GetDescription()
+        {
+            return description;
+        }
+
+        public int GetId()
+        {
+            return id;
         }
 
         // public void showMenu(List<Dish> menu)
