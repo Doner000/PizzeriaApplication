@@ -44,6 +44,11 @@ namespace CustomerClass
             this.customerId = customerId;
         }
 
+        public int GetId ()
+        {
+            return customerId;
+        }
+
         public string getCustomerName()
         {
             return customerName;
@@ -64,7 +69,7 @@ namespace CustomerClass
             System.Console.WriteLine($"Ваше имя {customerName}. Адрес {customerAdress}. Telegram Username {telegramUserName}");
         }
 
-        public Order MakingOrder (Menu menu, Customer customer)
+        public Order MakingOrder (Menu menu, Customer customer, DB dataBase)
         {
             Pizza selectedPizza = new ();
             List<Pizza> pizzaCart = new();
@@ -235,7 +240,9 @@ namespace CustomerClass
                 
             }
 
-            order.setInformation(pizzaCart,drinksCart,customer);
+            order.setInformation(pizzaCart, drinksCart, customer, dataBase, order);
+            System.Console.WriteLine("Проверка");
+            Console.ReadLine();
             order.show();
             return order;
             

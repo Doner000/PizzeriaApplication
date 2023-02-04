@@ -2,6 +2,7 @@ using Npgsql;
 using PizzaClass;
 using DrinksClass;
 using CustomerClass;
+using OrderClass;
 
 
 namespace DataBaseClass
@@ -31,6 +32,111 @@ namespace DataBaseClass
             {
                 System.Console.WriteLine(ex);
             }   
+        }
+
+        public void insertOrder(List<Pizza> selectedPizzas, List<Drinks> selectedDrinks, Customer customer, Order order)
+        {
+            
+            var timeStamp = DateTime.Now;
+            System.Console.WriteLine("Время заказа: " + timeStamp);
+            
+
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+
+            try
+            {
+                conn.Open();
+
+                //insert customerid and date to orders table
+                using ( NpgsqlCommand command = new NpgsqlCommand("INSERT INTO Orders (CustomerId, Date) VALUES (@CI1, @D1)", conn))
+                {
+                    command.Parameters.AddWithValue("CI1", customer.GetId());
+                    command.Parameters.AddWithValue("D1", timeStamp);
+                    command.ExecuteNonQuery();
+                    System.Console.WriteLine("Запись CustomerId внесена в таблицу Orders");
+                }
+                conn.Close();
+
+                conn.Open();
+                //get orderId from orders table
+                using ( NpgsqlCommand command = new NpgsqlCommand("Select OrderId from Orders where CustomerId = @CI1 and Date = @D1 ", conn))
+                {
+                    command.Parameters.AddWithValue("CI1" , customer.GetId());
+                    command.Parameters.AddWithValue("D1", timeStamp);
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        order.setId(reader.GetInt32(0));
+                    }
+
+                    System.Console.WriteLine("ID заказа - " + order.getId());
+                }
+
+                conn.Close();
+
+                
+
+                for (int i = 0; i < selectedPizzas.Count(); i++)
+                {
+                    conn.Open();
+                    using ( NpgsqlCommand command = new NpgsqlCommand("INSERT INTO OrdersMenuItems (OrderId, MenuItemsId) VALUES (@OI1 , @MI1)", conn))
+                    {
+                        command.Parameters.AddWithValue("OI1", order.getId() );
+                        command.Parameters.AddWithValue("MI1", selectedPizzas[i].GetId());
+                        command.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+                
+                for (int i = 0; i < selectedDrinks.Count(); i++)
+                    {
+                        conn.Open();
+                        using ( NpgsqlCommand command = new NpgsqlCommand("INSERT INTO OrdersMenuItems (OrderId, MenuItemsId) VALUES (@OI1 , @MI1)", conn))
+                        {
+                            command.Parameters.AddWithValue("OI1", order.getId() );
+                            command.Parameters.AddWithValue("MI1", selectedDrinks[i].GetId());
+                            command.ExecuteNonQuery();
+                        }
+                        conn.Close();
+                    }
+
+
+                // using ( NpgsqlCommand command = new NpgsqlCommand("INSERT INTO OrdersMenuItems (OrderId, MenuItemsId) VALUES (@OI1 , @MI1)", conn))
+                // {
+                //     // foreach (var item in selectedPizzas)
+                //     // {
+                //     //     System.Console.WriteLine( "Пицца - " + item.getName());
+                //     //     command.Parameters.AddWithValue("OI1", order.getId());
+                //     //     command.Parameters.AddWithValue("MI1", item.GetId());
+                //     //     command.ExecuteNonQuery();
+                //     // }
+
+                //     for (int i = 0; i < selectedPizzas.Count(); i++)
+                //     {
+                //         command.Parameters.AddWithValue("OI1", order.getId() );
+                //         command.Parameters.AddWithValue("MI1", selectedPizzas[i].GetId());
+                //         command.ExecuteNonQuery();
+                //     }
+
+                    
+
+                //     // foreach (var item in selectedDrinks)
+                //     // {
+                //     //     System.Console.WriteLine( "Напиток - " + item.getName());
+                //     //     command.Parameters.AddWithValue("OI1", order.getId());
+                //     //     command.Parameters.AddWithValue("MI1", item.GetId());
+                //     //     command.ExecuteNonQuery();
+                //     // }
+                // }
+            }
+
+            catch(Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }   
+
+            conn.Close();
         }
 
         public void ReadPizzaItems (List<Pizza> pizzaMenu)

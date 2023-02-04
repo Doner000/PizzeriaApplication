@@ -1,11 +1,13 @@
 using PizzaClass;
 using CustomerClass;
 using DrinksClass;
+using DataBaseClass;
 
 namespace OrderClass
 {
     public class Order
     {
+        private int orderId;
         private List<Pizza> selectedPizzas;
         private List<Drinks> selectedDrinks;
         private Customer customer;
@@ -66,15 +68,27 @@ namespace OrderClass
             return currentCustomerTelegramID;
         }
 
-        public void setInformation(List<Pizza> selectedPizzas, List<Drinks> selectedDrinks, Customer customer)
+        public void setId (int orderId)
+        {
+            this.orderId = orderId;
+        }
+
+        public int getId ()
+        {
+            return orderId;
+        }
+
+        public void setInformation(List<Pizza> selectedPizzas, List<Drinks> selectedDrinks, Customer customer, DB dataBase, Order order)
         {
             this.selectedPizzas = selectedPizzas;
             this.selectedDrinks = selectedDrinks;
             this.customer = customer;
+
+            dataBase.insertOrder(selectedPizzas, selectedDrinks, customer, order);
             
-            this.currentCustomerName = customer.getCustomerName();
-            this.currentCustomerTelegramID = customer.getcustomerTelegramID();
-            this.currentCustomerAdress = customer.getCustomerAdress();
+            
+            
+            
         }
 
         //Можно будет удалять из корзины продукты

@@ -118,7 +118,7 @@ class PizzeriaApplication
 
                     Order order = new Order();
                     
-                    order = customer.MakingOrder(menu,customer);
+                    order = customer.MakingOrder(menu,customer,dataBase);
                     
 
                     ordersQueue.Enqueue(order);
