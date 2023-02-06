@@ -69,14 +69,14 @@ namespace CustomerClass
             System.Console.WriteLine($"Ваше имя {customerName}. Адрес {customerAdress}. Telegram Username {telegramUserName}");
         }
 
-        public Order MakingOrder (Menu menu, Customer customer, DB dataBase)
+        public void MakingOrder (Order order ,Menu menu, Customer customer, DB dataBase)
         {
             Pizza selectedPizza = new ();
             List<Pizza> pizzaCart = new();
             Drinks selectedDrink = new();
             List<Drinks> drinksCart = new();
 
-            Order order = new Order();
+            
 
             bool wantMorePizzaOrNot = true;
             bool wantMoreDrinkOrNot = true;
@@ -241,18 +241,11 @@ namespace CustomerClass
             }
 
             order.setInformation(pizzaCart, drinksCart, customer, dataBase, order);
-            System.Console.WriteLine("Проверка");
-            Console.ReadLine();
             order.show();
-            return order;
+            
             
 
             //Добавить возможность возвращаться к добавлению заказа после показа выбранных продуктов
-            
-            
-
-            
-            
             
         }
 

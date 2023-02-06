@@ -55,17 +55,17 @@ namespace OrderClass
 
         public string getCurrentCustomerName()
         {
-            return currentCustomerName;
+            return customer.getCustomerName();
         }
 
         public string getCurrentCustomerAdress()
         {
-            return currentCustomerAdress;
+            return customer.getCustomerAdress();
         }
 
         public string getCurrentCustomerTelegramID()
         {
-            return currentCustomerTelegramID;
+            return customer.getcustomerTelegramID();
         }
 
         public void setId (int orderId)
@@ -114,7 +114,7 @@ namespace OrderClass
             }
 
             System.Console.WriteLine($"Стоимость заказа: {cost} тенге");
-            Console.ReadLine();
+            
             
             // foreach (var drinks in selectedDrinks)
             // {

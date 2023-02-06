@@ -24,22 +24,14 @@ class PizzeriaApplication
         Queue <Order> ordersQueue = new ();
         Queue<Order> warehouseQueue = new Queue<Order>();
 
-        Cooker cookerDamir = new Cooker("Damir", 120);
-        Cooker cookerAdil = new Cooker("Адиль", 160);
-
         Queue <Cooker> cookersQueue = new ();
-        cookersQueue.Enqueue(cookerDamir);
-        cookersQueue.Enqueue(cookerAdil);
-
-        Courier courier = new Courier("Елжас");
+        dataBase.ReadCooker(cookersQueue);
+        
+        Queue <Courier> courierQueue = new Queue<Courier>(); 
+        dataBase.ReadCourier(courierQueue);
 
         List <Pizza> pizzaMenu = new List<Pizza>();
         dataBase.ReadPizzaItems(pizzaMenu);
-
-
-        // pizzaMenu.Add(new Pizza("Моцаррела", 2000));
-        // pizzaMenu.Add(new Pizza("Пепперони", 2350));
-        // pizzaMenu.Add(new Pizza("Пицца с ананасами", 2650));
 
         List <Drinks> drinksMenu = new List<Drinks>();
         dataBase.ReadDrinkItems(drinksMenu);
@@ -71,7 +63,7 @@ class PizzeriaApplication
         (
             () =>
             {
-                kitchenTask(ordersQueue,warehouseQueue,cookersQueue);
+                kitchenTask(ordersQueue, warehouseQueue, cookersQueue, dataBase);
             }
         );
 
@@ -81,7 +73,7 @@ class PizzeriaApplication
         (
             () =>
             {
-                courierTask(warehouseQueue,courier);
+                courierTask(warehouseQueue,courierQueue,dataBase);
             }
         );
 
@@ -91,7 +83,7 @@ class PizzeriaApplication
 
     }
 
-    private static void customerTask (Menu menu, Queue<Order> ordersQueue,DB dataBase)
+    private static void customerTask (Menu menu, Queue<Order> ordersQueue, DB dataBase)
     {
         while (true)
         {
@@ -118,27 +110,14 @@ class PizzeriaApplication
 
                     Order order = new Order();
                     
-                    order = customer.MakingOrder(menu,customer,dataBase);
+                    customer.MakingOrder(order,menu,customer,dataBase);
                     
 
                     ordersQueue.Enqueue(order);
 
-                    System.Console.WriteLine("Ожидайте. Ваш заказ добавлен в очерь на готовку");
-                    
-
-                    // Pizza selectedPizza = new Pizza();
-                    // selectedPizza = customer.pizzaSelection(menu);
-                    
-                    // if (selectedPizza.getName() != null)
-                    // {
-                    //     order.setInformation(selectedPizza,customer);
-                    //     ordersQueue.Enqueue(order);
-                    //     Thread.Sleep(5000);
-                    // }
+                    System.Console.WriteLine("Ожидайте. Ваш заказ добавлен в очередь на готовку");
                 }
-                
                 Thread.Sleep(5000);
-                
             }
 
             else
@@ -146,18 +125,14 @@ class PizzeriaApplication
                 System.Console.WriteLine("\nНеправильный ввод данных. Попробуйте снова");
                 Thread.Sleep(5000);
             }
-
-            
-            
         }
         
     }
 
-    public static void kitchenTask (Queue<Order> ordersQueue, Queue<Order> warehouseQueue,Queue <Cooker> cookersQueue)
+    public static void kitchenTask (Queue<Order> ordersQueue, Queue<Order> warehouseQueue,Queue <Cooker> cookersQueue, DB dataBase)
     {
         while (true)
         {
-
             if(ordersQueue.Count() > 0)
             {
                 Thread.Sleep(15000);
@@ -170,12 +145,18 @@ class PizzeriaApplication
                 System.Console.WriteLine($"\nГотовка займет {currentCooker.getCookingSpeed()} секунд");
                 Thread.Sleep(currentCooker.getCookingSpeed()*1000);
                 System.Console.WriteLine($"\n{takenOrder.getCurrentCustomerName()} Ваш заказ готов. Отправляем на склад");
+                
+                
                 Thread.Sleep(5000);//Типо 5 сек относит на склад
 
                 //Передача готового заказа на склад
                 warehouseQueue.Enqueue(takenOrder);
                 System.Console.WriteLine($"\nЗаказ на складе. Курьер скоро заберет заказ со склада");
+
+                dataBase.SetCookerIdToOrder(currentCooker, takenOrder);
+
                 cookersQueue.Enqueue(currentCooker);
+                
 
                 Thread.Sleep(5000);
             }
@@ -188,13 +169,11 @@ class PizzeriaApplication
     }
 
     public static void 
-    courierTask (Queue<Order> warehouseQueue, Courier courier)
+    courierTask (Queue<Order> warehouseQueue, Queue<Courier> couriersQueue, DB dataBase)
     {
 
         while (true)
         {
-            
-
             while (warehouseQueue.Count() == 0)
             {
                 Thread.Sleep(30000);
@@ -202,11 +181,17 @@ class PizzeriaApplication
 
             Thread.Sleep(35000);
 
+            Courier courier = couriersQueue.Dequeue();
             Order orderToDeliver = warehouseQueue.Dequeue();
-            Thread.Sleep(10000);
+
             System.Console.WriteLine($"\nКурьер {courier.getName()} получил ваш заказ\n\nЧерез 30 секуд курьер будет у вас");
             Thread.Sleep(30000);
             System.Console.WriteLine($"\nЗаказ доставлен.\n\nСпасибо за покупку!!!");
+
+            dataBase.SetCourierId(courier,orderToDeliver);
+            couriersQueue.Enqueue(courier);
+
+            
         }
         
     }

@@ -3,6 +3,8 @@ using PizzaClass;
 using DrinksClass;
 using CustomerClass;
 using OrderClass;
+using CourierClass;
+using CookerClass;
 
 
 namespace DataBaseClass
@@ -33,6 +35,8 @@ namespace DataBaseClass
                 System.Console.WriteLine(ex);
             }   
         }
+
+
 
         public void insertOrder(List<Pizza> selectedPizzas, List<Drinks> selectedDrinks, Customer customer, Order order)
         {
@@ -137,6 +141,61 @@ namespace DataBaseClass
             }   
 
             conn.Close();
+        }
+
+        public void ReadCourier (Queue <Courier> courierQueue)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+            try
+            {
+                conn.Open();
+                NpgsqlCommand command = new NpgsqlCommand("select * from Courier", conn);
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string name = reader.GetString(1);
+                    int completedOrdersCount;
+                    
+                    if(reader.IsDBNull(2))
+                    {
+                        completedOrdersCount = 0;
+                    }
+                    else
+                    {
+                        completedOrdersCount = reader.GetInt32(2);
+                    }
+
+                    Courier courier = new Courier(id, name, completedOrdersCount);
+                    courierQueue.Enqueue(courier);
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+        }
+
+        public void SetCourierId(Courier courier, Order order)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+            try
+            {
+                conn.Open();
+                using (NpgsqlCommand command = new NpgsqlCommand("UPDATE Orders SET CourierId = @CID WHERE orderId = @OID", conn))
+                {       
+                    command.Parameters.AddWithValue("CID", courier.GetID());
+                    command.Parameters.AddWithValue("OID", order.getId());
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
         }
 
         public void ReadPizzaItems (List<Pizza> pizzaMenu)
@@ -259,18 +318,69 @@ namespace DataBaseClass
                     int customerId = reader.GetInt32(0);
 
                     customer.SetId(customerId);
-                    
-                    
-                    
+
                     // while (reader.Read())
                     // {
                     //     customerId = reader["telegramusername"].ToString();
                     //     customer.SetId(customerId);
                     // }
+                
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+        }
+
+        public void ReadCooker(Queue<Cooker> cookersQueue)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+            try
+            {
+                conn.Open();
+                NpgsqlCommand command = new NpgsqlCommand("select * from cooker", conn);
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetInt32(0);
+                    string name = reader.GetString(1);
+                    int cookingSpeed;
                     
-                   
-                    
-                    
+                    if(reader.IsDBNull(2))
+                    {
+                        cookingSpeed = 0;
+                    }
+                    else
+                    {
+                        cookingSpeed = reader.GetInt32(2);
+                    }
+
+                    Cooker cooker = new Cooker(id, name, cookingSpeed);
+                    cookersQueue.Enqueue(cooker);
+                }
+                
+
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
+        }
+
+        public void SetCookerIdToOrder(Cooker cooker, Order order)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection(connString);
+            try
+            {
+                conn.Open();
+                using (NpgsqlCommand command = new NpgsqlCommand("UPDATE Orders SET CookerId = @CID WHERE orderId = @OID", conn))
+                
+                {
+                    command.Parameters.AddWithValue("CID", cooker.GetID());
+                    command.Parameters.AddWithValue("OID", order.getId());
+                    command.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
